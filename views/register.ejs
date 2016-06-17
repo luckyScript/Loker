@@ -1,0 +1,46 @@
+<div class="login-block">
+
+<form class="" action="/login" method="post">
+    <div class="login-label">
+        <label for="username">邀请码:</label>
+        <input type="text" name="invite" id="invite" value=""><br>
+    </div>
+    <div class="login-label">
+        <label for="username">邮箱:</label>
+        <input type="text" name="mail" id="mail" value=""><br>
+    </div>
+    <div class="login-label">
+        <label for="username">用户名:</label>
+        <input type="text" name="username" id="username" value=""><br>
+    </div>
+    <div class="login-label">
+        <label for="password">密码:</label>
+        <input type="password" name="password" id="password" value=""><br>
+    </div>
+    <div class="login-label">
+        <label for="password">再次输入密码:</label>
+        <input type="password" name="password" id="password" value=""><br>
+    </div>
+    <button type="button" >确定</button>
+</form>
+    <script type="text/javascript">
+        $('button').click(function () {
+            var invite = $('#invite').val();
+            var mail = $('#mail').val();
+            var username = $('#username').val();
+            var password = $('#password').val();
+            $.ajax({
+                url: '/register',
+                type: 'POST',
+                data: {"invite": invite, "mail": mail, "username": username, "password": password},
+                success: function(data) {
+                    if (data.result == 0) {
+                        alert("exist");
+                    } else if (data.result == 'success') {
+                        window.location.href = '/login';
+                    }
+                }
+            })
+        })
+    </script>
+</div>

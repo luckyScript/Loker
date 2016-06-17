@@ -1,0 +1,21 @@
+<header>
+    <div class="logo">
+        <img src="/images/logo.jpg"/>
+    </div>
+    <nav>
+        <li><a href="/">主页</a></li>
+        <% if (!session.user) {%>
+        <li><a href="/login">登录</a></li>
+        <% }%>
+        <% if (session.user) {%>
+        <li><a href="#" class="username"><%= session.user.username%></a></li>
+        <li><a href="/logout">退出</a></li>
+        <% }%>
+        <br class="clear">
+    </nav>
+    <div class="search-block">
+        <form class="search" action="/search" method="post">
+            <input type="text" name="search-content" value="">
+        </form>
+    </div>
+</header>

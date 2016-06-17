@@ -1,0 +1,34 @@
+<div class="login-block">
+
+<form class="" action="/login" method="post">
+    <div class="login-label">
+        <label for="username">用户名:</label>
+        <input type="text" name="username" id="username" value=""><br>
+    </div>
+    <div class="login-label">
+        <label for="password">密码:</label>
+        <input type="password" name="password" id="password" value=""><br>
+    </div>
+    <div class="login-button">
+        <button type="button" id="ok">确定</button>
+        <button type="reset" >重置</button>
+    </div>
+
+</form>
+    <script type="text/javascript">
+        $('#ok').click(function () {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            $.ajax({
+                url: '/login',
+                type: 'POST',
+                data: {"username": username, "password": password},
+                success: function (data) {
+                    if (data.result == 2) {
+                        window.location.href = "/"
+                    }
+                }
+            })
+        })
+    </script>
+</div>

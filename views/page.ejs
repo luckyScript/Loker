@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>loker</title>
+        <% include common/head.ejs%>
+    </head>
+    <body>
+        <% include common/header.ejs%>
+        <% if (state.state == 'index') {%>
+            <% include index.ejs%>
+        <%}%>
+        <% if (state.state == 'login') {%>
+            <% include login.ejs%>
+        <%}%>
+        <% if (state.state == 'register') {%>
+            <% include register.ejs%>
+        <%}%>
+        <% if (state.state == 'newTopic') {%>
+            <% include newTopic.ejs%>
+        <%}%>
+        <% include common/footer.ejs%>
+    </body>
+</html>

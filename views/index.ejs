@@ -1,0 +1,34 @@
+<main>
+    <div class="main-content">
+        <nav class="category">
+            <li class="active ">全部</li>
+            <li>文章</li>
+            <li>技术</li>
+            <li>分类</li>
+            <li>你好</li>
+            <br class="clear">
+        </nav>
+        <div class="article-list">
+            <% topics.forEach(function(topic) { %>
+                <div class="article-detail">
+                    <a href="#"><h3><%= topic.title%></h3></a>
+                    <div class="detail-left">
+                        <span><%= topic.authorName%></span>
+                    </div>
+                    <div class="detail-right">
+                        <span class="category-span">分类</span>
+                        <span class="time-span">2016-06-15</span>
+                    </div>
+                    <br class="clear;">
+                </div>
+            <% })%>
+        </div>
+        <div class="addition-info">
+            <% if (session.user) {%>
+                欢迎,<a><%= session.user.username%></a> <br>
+                <a href="/newTopic">创建新话题</a>
+            <% }%>
+        </div>
+        <br class="clear">
+    </div>
+</main>
