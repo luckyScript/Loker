@@ -1,0 +1,24 @@
+<div class="topic-block">
+    <div class="topic-label">
+        <label for="title">分类名称:</label>
+        <input type="text" name="category" value="" id="category-name">
+    </div>
+    <div class="topic-button">
+        <button type="button">提交</button>
+    </div>
+    <script type="text/javascript">
+        $('button').click(function () {
+            var name = $('#category-name').val();
+            $.ajax({
+                url: '/newCategory',
+                type: 'POST',
+                data: {"name": name},
+                success: function (data) {
+                    if (data.result = 1) {
+                        window.location = '/';
+                    }
+                }
+            })
+        })
+    </script>
+</div>

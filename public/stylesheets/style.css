@@ -169,3 +169,34 @@ span {
     font-size: 20px;
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
 }
+.topic-block input, .topic-block select{
+    width: 62%;
+    font-size: 20px;
+    outline: 0;
+    border: 1px solid rgba(0, 0, 0, 0.22);
+    margin: 15px;
+    padding: 5px;
+}
+textarea {
+    outline: 0;
+    width:  60%;
+    border: 5px double rgba(0, 0, 0, 0.22);
+    vertical-align: top;
+    margin: 15px;
+    resize: none;
+    height: 100px;
+    padding: 10px;
+    font-size: 20px;
+}
+.topic-block button{
+    font-size: 15px;
+    outline: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px;
+    cursor: pointer;
+    margin-left: 20%;
+}

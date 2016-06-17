@@ -7,7 +7,8 @@ var schema = {
     time: String,
     title: String,
     content: String,
-    category: String,
+    category: {type: Schema.Types.ObjectId, ref: 'Category'},
+    categoryName: String,
     comment: [
         {type: String}
     ],

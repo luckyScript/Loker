@@ -19,6 +19,12 @@
         <% if (state.state == 'newTopic') {%>
             <% include newTopic.ejs%>
         <%}%>
+        <% if (state.state == 'topic') {%>
+            <% include topic.ejs%>
+        <%}%>
+        <% if (state.state == 'newCategory') {%>
+            <% include newCategory.ejs%>
+        <%}%>
         <% include common/footer.ejs%>
     </body>
 </html>

@@ -5,7 +5,8 @@ module.exports = function (app) {
     // routes
     var index = require("./index");
     var user = require("./users");
-    var topic = require("./topic")
+    var topic = require("./topic");
+    var category = require("./category");
 
     /* GET home page. */
     router.get('/', index.home(app));
@@ -20,5 +21,10 @@ module.exports = function (app) {
     /* topic router*/
     router.get('/newTopic', topic.newTopic(app));
     router.post('/newTopic', topic.newTopicHandle(app));
+    router.get('/topic/:id', topic.getTopic(app));
+
+    /* category router*/
+    router.get('/newCategory', category.newCategory(app));
+    router.post('/newCategory', category.newCategoryHandle(app));
     return router;
 }

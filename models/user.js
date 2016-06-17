@@ -7,7 +7,7 @@ var schema = {
     mail: String,
     salt: String,
     topics: [
-        { type: Schema.Types.ObjectId, ref: 'topic' }
+        { type: Schema.Types.ObjectId, ref: 'Topic' }
     ]
 };
 

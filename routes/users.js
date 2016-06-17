@@ -18,7 +18,6 @@ exports.registerHandle = function(app) {
         var password = req.body.password;
         var invite = req.body.invite;
         var mail = req.body.mail;
-        console.log(username, password, invite);
 
         user = new User ({
 			username: username,
