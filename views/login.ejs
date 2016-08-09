@@ -1,20 +1,38 @@
-<div class="login-block">
-
-<form class="" action="/login" method="post">
-    <div class="login-label">
-        <label for="username">用户名:</label>
-        <input type="text" name="username" id="username" value=""><br>
+<div class="login">
+    <form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-3"></div>
+        <label for="inputEmail3" class="col-sm-1 control-label">Username</label>
+        <div class="col-sm-4">
+        <input type="email" class="form-control" id="username" placeholder="Username">
+        </div>
     </div>
-    <div class="login-label">
-        <label for="password">密码:</label>
-        <input type="password" name="password" id="password" value=""><br>
+    <div class="form-group">
+        <div class="col-sm-3"></div>
+        <label for="inputPassword3" class="col-sm-1 control-label">Password</label>
+        <div class="col-sm-4">
+        <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
     </div>
-    <div class="login-button">
-        <button type="button" id="ok">确定</button>
-        <button type="reset" >重置</button>
+    <div class="form-group">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-offset-2 col-sm-4">
+        <div class="checkbox">
+            <label>
+            <input type="checkbox"> Remember me
+            </label>
+        </div>
+        </div>
     </div>
-
-</form>
+    <div class="form-group">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-offset-2 col-sm-4">
+        <button type="button" class="btn btn-default" id="ok">Sign in</button>
+        <button type="reset" class="btn btn-default">Reset</button>
+        </div>
+    </div>
+    </form>
+</div>
     <script type="text/javascript">
         $('#ok').click(function () {
             var username = $('#username').val();
@@ -24,8 +42,14 @@
                 type: 'POST',
                 data: {"username": username, "password": password},
                 success: function (data) {
+
                     if (data.result == 2) {
                         window.location.href = "/"
+                    } else if (data.result == 1) {
+                        // wrong password
+                        alert("wrong password!!! check again~~~")
+                    } else {
+                        alert("unknown error");
                     }
                 }
             })

@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 var schema = {
     username: String,
     password: String,
-    mail: String,
     salt: String,
     topics: [
         { type: Schema.Types.ObjectId, ref: 'Topic' }

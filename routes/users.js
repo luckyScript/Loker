@@ -17,12 +17,10 @@ exports.registerHandle = function(app) {
         var username = req.body.username;
         var password = req.body.password;
         var invite = req.body.invite;
-        var mail = req.body.mail;
 
         user = new User ({
 			username: username,
-			password: password,
-			mail: mail
+			password: password
 		});
 
 		user.register(function(err, user) {
@@ -41,6 +39,8 @@ exports.registerHandle = function(app) {
 		})
     }
 }
+
+// get value posted from /views/login.ejs
 exports.loginHandle = function(app) {
     return function(req, res, next) {
         var username = req.body.username;
@@ -71,20 +71,27 @@ exports.loginHandle = function(app) {
         })
     }
 }
+
+// get login page 
 exports.login = function(app) {
     return function (req, res, next) {
-        var context = {
-            state: {
-                state: 'login'
-            },
-            session: req.session
-        };
-        res.render('page', context);
+        if (req.session.user) {
+            res.redirect('/');
+            return;
+        } else {
+            var context = {
+                state: {
+                    state: 'login'
+                },
+                session: req.session
+            };
+            res.render('page', context);
+        }
     }
 }
 exports.logout = function (app) {
     return function (req, res, next) {
-        if (req.session.user.username) {
+        if (req.session.user) {
             req.session.destroy(function (err) {
                 if (err) next(err);
                 console.log('destroyed the session');

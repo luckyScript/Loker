@@ -1,34 +1,62 @@
-<main>
-    <div class="main-content">
-        <nav class="category">
-            <li class="active ">全部</li>
-            <% categorys.forEach(function (category) {%>
-                    <li><%= category.name%></li>
-            <%})%>
-            <br class="clear">
-        </nav>
-        <div class="article-list">
-            <% topics.forEach(function(topic) { %>
-                <div class="article-detail">
-                    <a href="/topic/<%=topic.id%>"><h3><%= topic.title%></h3></a>
-                    <div class="detail-left">
-                        <span><%= topic.authorName%></span>
-                    </div>
-                    <div class="detail-right">
-                        <span class="category-span"><%= topic.categoryName%></span>
-                        <span class="time-span">2016-06-15</span>
-                    </div>
-                    <br class="clear;">
-                </div>
-            <% })%>
+<div class="col-md-8">
+    <div class="col-md-2"></div>
+    <ul class="nav nav-tabs col-md-10">
+        <li role="presentation" class="<%=(currentCategory === "all")?'active':'inactive'%>"><a href="/">All</a></li>
+        <% categorys.forEach(function (category) {%>
+            <li role="presentation" class="<%=(currentCategory === category.name)?'active':'inactive'%>"><a href="/category/<%=category.name%>"><%= category.name%></a></li>
+        <%})%> 
+    </ul>
+</div>
+<div class="article-list col-md-8">
+    <% if (topics.length != 0) {%>
+        <div class="col-md-12">
+            <div class="col-md-2"></div>
+            
+            <div class="list-group col-md-10">
+                <% topics.forEach(function(topic) { %>
+                    <a href="/topic/<%=topic.id%>" class="list-group-item">
+                        <h4 class="list-group-item-heading"><%= topic.title%></h4>
+                        <span class="label label-primary"><%= topic.authorName%></span>
+                        <span class="label label-info"><%= topic.categoryName%></span>
+                        <p class="list-group-item-text">...</p>
+                    </a>
+                <% })%>
+            </div>
         </div>
-        <div class="addition-info">
-            <% if (session.user) {%>
-                欢迎,<a><%= session.user.username%></a> <br>
-                <a href="/newTopic">创建新话题</a>
-                <a href="/newCategory">创建新分类</a>
-            <% }%>
+        <div class="col-md-12">
+            <div class="col-md-2"></div>
+            <nav class="col-md-10">
+            <ul class="pagination">
+                <li class="<%= (currentPage==1)?'hidden':'inactive'%>">
+                <a href="/page/<%=Number(currentPage)-1%>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                </li>
+                <% pageNumArr.forEach(function (num) {%>
+                    <li class="<%= (currentPage==(num+1))?'active':'inactive'%>"><a href="/page/<%=num+1%>"><%= num+1%></a></li>
+                <% })%>
+                <li class="<%= (currentPage==pageNumTotal)?'hidden':'inactive'%>">
+                <a href="/page/<%=Number(currentPage)+1%>" aria-label="Next" >
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                </li>
+            </ul>
+            </nav>
         </div>
-        <br class="clear">
-    </div>
-</main>
+    <% }%>
+</div>
+
+<div class="addition-info col-md-4">
+
+<% if (session.user) {%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Welcome,<%= session.user.username%></h3>
+  </div>
+  <div class="panel-body">  
+        <a href="/newTopic">创建新话题</a>
+        <a href="/newCategory">创建新分类</a>
+  </div>
+</div>
+<% }%>
+</div>

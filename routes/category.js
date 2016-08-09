@@ -1,4 +1,6 @@
 var Category = require('../controllers/category');
+var Topic = require('../controllers/topic')
+
 exports.newCategory = function (app) {
     return function (req, res ,next) {
         if (!req.session.user) {
@@ -22,7 +24,6 @@ exports.newCategoryHandle = function (app) {
 
 
 		category.create(function(err, user) {
-console.log(category);
 			if (err) return next(err);
 			if (user == 409) {
                 res.send({"result": "0"});
@@ -34,5 +35,43 @@ console.log(category);
                 return;
 			}
 		})
+    }
+}
+
+/**
+ * TODO: cannot fetch topic 
+ */
+exports.getCategoryByName = function (app) {
+    return function (req, res, next) {
+        var categoryName = req.params.name;
+        Category.getAll(function (categorys) {
+            Category.findTopicsByName(categoryName, function (categoryTopic) {
+                if (categoryTopic.length == 0) {
+                    var context = {
+                        state: {
+                            state: 'index'
+                        },
+                        session: req.session,
+                        topics: [],
+                        categorys: categorys,
+                        currentCategory: categoryName
+                    }
+                    res.render('page',context);
+                } else {
+                    Topic.getTopicsByIds(categoryTopic, function (topics) {
+                        var context = {
+                            state: {
+                                state: 'index'
+                            },
+                            session: req.session,
+                            topics: topics,
+                            categorys: categorys,
+                            currentCategory: categoryName
+                        }
+                        res.render('page',context);
+                    });
+                }
+            });
+        });
     }
 }

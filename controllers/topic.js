@@ -13,6 +13,7 @@ Topic.getAll = function (fn) {
         fn(topicExist);
     })
 }
+
 Topic.prototype.create = function (fn) {
     var self = this;
     UserModel.findOne({_id: self.author}).exec(function(err, user) {
@@ -25,7 +26,6 @@ Topic.prototype.create = function (fn) {
                 user.save(function (err) {
                     if (err) return fn(err);
                 })
-                console.log(category);
                 category.topics.push(topic);
                 category.save(function (err) {
                     if (err) return fn(err);
@@ -35,10 +35,42 @@ Topic.prototype.create = function (fn) {
         })
     })
 }
+
 Topic.getTopicById = function (id, fn) {
     TopicModel.findOne({_id:id}).exec(function (err, topic) {
         if (err) return fn(err);
-        return fn(topic);
+        fn(topic);
+    });
+}
+
+// 
+Topic.getTopicsByIds = function (ids, fn) {
+    var resultArr = [];
+    var count = 0;
+    var targetCount = ids.length;
+    var done = function () {
+        count += 1;
+        if (count === targetCount) {
+            return fn(resultArr);
+        }
+    }
+    ids.forEach(function (id) {
+        TopicModel.findOne({_id:id}).exec(function (err, topic) {
+            if (err) return fn(err);
+            resultArr.push(topic);
+            done();
+        });
     })
+}
+
+Topic.addComment = function (id, obj, fn) {
+    TopicModel.findOne({_id:id}).exec(function (err, topic) {
+        if (err) return fn(err);
+        topic.comment.push(obj);
+        topic.save(function (err) {
+            if (err) fn(err);
+            fn(topic);
+        })
+    });
 }
 module.exports = Topic;

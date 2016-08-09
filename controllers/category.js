@@ -9,7 +9,6 @@ Category.getAll = function (fn) {
     CategoryModel.find({}).exec(function (err, categoryExists){
         if (err) return fn(err);
         //if (!topicExist) return fn(err, 404);
-        console.log(categoryExists);
         fn(categoryExists);
     })
 }
@@ -35,4 +34,13 @@ Category.findIdByName = function (name, fn) {
         fn(categoryExists._id);
     })
 }
+
+Category.findTopicsByName = function (name, fn) {
+    CategoryModel.findOne({name: name}).exec(function (err, categoryTopics) {
+        if (err) return fn(err);
+        if (!categoryTopics) return;
+        return fn(categoryTopics.topics);
+
+    })
+} 
 module.exports = Category;

@@ -1,23 +1,47 @@
-<div class="topic-block">
-    <div class="topic-label">
-        <label for="title">主题:</label>
-        <input type="text" name="title" value="" id="title">
-    </div>
-    <div class="topic-label">
-        <label for="content">内容:</label>
-        <textarea name="content" rows="5" cols="25" id="content"></textarea>
-    </div>
-    <div class="topic-label">
-        <label for="category">分类:</label>
-        <select class="category" name="category" id="category">
-            <% categorys.forEach(function (category) {%>
-                    <option value="<%= category.name%>"><%= category.name%></option>
-            <%})%>
-        </select>
-    </div>
-    <div class="topic-button">
-        <button type="button">提交</button>
-    </div>
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Title:</h3>
+            </div>
+            <div class="panel-body">
+                    <input type="text" class="form-control" id="title" placeholder="Title">
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">category:</h3>
+            </div>
+            <div class="panel-body">
+                <select class="form-control">
+                    <% categorys.forEach(function (category) {%>
+                        <option value="<%= category.name%>"><%= category.name%></option>
+                    <%})%>
+                </select>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">content:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <textarea class="form-control" rows="20" id="content"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-8 col-sm-10">
+                        <button type="submit" class="btn btn-default">submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</div>
+<div class="col-md-2"></div>    
     <script type="text/javascript">
         $('button').click(function () {
             var title = $('#title').val();
@@ -40,6 +64,12 @@
                     }
                 }
             })
+        })
+        $('#content').keydown(function (event) {
+            if (event.which == 9) {
+                event.preventDefault();
+                return false; 
+            }
         })
     </script>
 </div>

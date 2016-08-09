@@ -1,6 +1,9 @@
 var Topic = require('../controllers/topic');
 var User = require('../controllers/user');
 var Category = require('../controllers/category');
+var marked = require('marked');
+
+
 
 exports.newTopic = function (app) {
     return function (req, res, next) {
@@ -21,6 +24,7 @@ exports.newTopic = function (app) {
 }
 exports.newTopicHandle = function (app) {
     return function (req, res, next) {
+        console.log(req.body.author);
         var authorName = req.body.author;
         var categoryName = req.body.categoryName;
         User.findIdByName(authorName, function(authorId) {
@@ -35,11 +39,10 @@ exports.newTopicHandle = function (app) {
                     title: title,
                     content: content
                 });
-                console.log(topic);
+                // console.log(topic);
                 topic.create(function (err, result) {
                     if (err) return next(err);
-                    console.log(result);
-                    res.send({"result":1});
+                    res.send({"result": 1});
                 });
             })
         });
@@ -49,6 +52,21 @@ exports.getTopic = function (app) {
     return function (req, res, next) {
         id = req.params.id;
         Topic.getTopicById(id, function(topic) {
+            marked.setOptions({
+                highlight: function (code) {
+                    return require('highlight.js').highlightAuto(code).value;
+                }
+            });
+            topic.content = marked(topic.content);
+            topic.commentFE = [];
+           
+            for (var i = 0; i < topic.comment.length; i++) {
+                topic.commentFE[i] = {
+                    username: JSON.parse(topic.comment[i]).username,
+                    content: marked(JSON.parse(topic.comment[i]).content)
+                }
+            }
+            
             var context = {
                 state: {
                     state: 'topic'
@@ -56,7 +74,20 @@ exports.getTopic = function (app) {
                 session: req.session,
                 topic: topic
             }
+            
             res.render('page', context);
+        })
+    }
+}
+exports.addComment = function (app) {
+    return function (req, res, next) {
+        id = req.params.id;
+        var comment = {
+            username: req.body.username,
+            content: req.body.content
+        }
+        Topic.addComment(id, JSON.stringify(comment), function (topic) {
+            res.send({"result": 1});
         })
     }
 }
