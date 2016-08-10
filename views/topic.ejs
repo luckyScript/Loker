@@ -3,14 +3,22 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><%= topic.title%></h3>
-            <span class="hidden topic-id"><%= topic._id%></span>
+            <span class="hidden topic-id"><%= topic._id%></span>            
         </div>
         <div class="panel-body">
             <span class="label label-info">category:<%= topic.categoryName%></span>
             <span class="label label-warning">author:<%= topic.authorName%></span>
+            <%if (topic.comment.length > 10) {%>
+            <span class="label label-danger right">hot</span>
+            <%}%>
         </div>
         <div class="panel-body">
             <%- topic.content%>
+            <%if (session.user.power == 1) {%>
+            <div class="col-sm-offset-10 col-sm-12">
+                <a href="/deleteTopic/<%=topic._id%>"><button class="btn btn-danger">delete</button></a>
+            </div>
+            <%}%>
         </div>
     </div>
 
@@ -22,7 +30,7 @@
         </a>
     <% })%>
     </div>
-
+    <% if (session.user) {%>
     <form>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -40,6 +48,7 @@
             </div>
         </div>
     </form>
+    <%}%>
 </div>
 <div class="col-md-2"></div>
 

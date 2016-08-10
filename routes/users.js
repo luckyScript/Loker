@@ -17,10 +17,11 @@ exports.registerHandle = function(app) {
         var username = req.body.username;
         var password = req.body.password;
         var invite = req.body.invite;
-
+        var power = 2;
         user = new User ({
 			username: username,
-			password: password
+			password: password,
+            power: power
 		});
 
 		user.register(function(err, user) {
@@ -28,7 +29,6 @@ exports.registerHandle = function(app) {
 			if (user == 409) {
                 // username is exist
                 res.send({"result": "0"});
-                console.log("this");
     			res.statusCode = 409;
                 return;
 			} else {
@@ -51,7 +51,6 @@ exports.loginHandle = function(app) {
         })
         user.login(function(err, userCode) {
             if (err) return next(err);
-            console.log("here",user)
             if (userCode == 404) {
                 console.log("not exist");
                 // user not exist
@@ -61,10 +60,11 @@ exports.loginHandle = function(app) {
                 // wrong password
                 res.send({"result": "1"});
                 res.statusCode = 403;
-            } else if (userCode == 200) {
+            } else if (userCode.code == 200) {
                 // success
                 req.session.user = {
-                    username: user.username
+                    username: user.username,
+                    power: userCode.power|| 2
                 };
                 res.send({"result": "2"});
             }

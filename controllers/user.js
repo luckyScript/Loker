@@ -41,7 +41,7 @@ User.prototype.login = function (fn) {
         bcrypt.hash(user.password, userExists.salt, function (err, hash) {
             if (err) return fn(err);
             if (userExists.password == hash) {
-                return fn(null, 200);
+                return fn(null, {power: userExists.power, code: 200});
             }
             fn(err, 403);
         });
@@ -55,6 +55,6 @@ User.findIdByName = function (username, fn) {
         // console.log(userExists._id);
         fn(userExists._id);
     })
-
 }
+
 module.exports = User;

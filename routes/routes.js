@@ -7,6 +7,7 @@ module.exports = function (app) {
     var user = require("./users");
     var topic = require("./topic");
     var category = require("./category");
+    var invite = require('./invite');
 
     /* GET home page. */
     router.get('/', index.index(app));
@@ -20,15 +21,19 @@ module.exports = function (app) {
     router.post('/register', user.registerHandle(app));
     router.get('/logout', user.logout(app));
 
-    /* topic router*/
+    /************* topic router **************/
     router.get('/newTopic', topic.newTopic(app));
     router.post('/newTopic', topic.newTopicHandle(app));
     router.get('/topic/:id', topic.getTopic(app));
     router.post('/comment/:id', topic.addComment(app));
+    router.get('/Deletetopic/:id', topic.deleteTopic(app));
 
-    /* category router*/
+    /**************** category router ***********/
     router.get('/newCategory', category.newCategory(app));
     router.post('/newCategory', category.newCategoryHandle(app));
-    router.get('/category/:name／:page', category.getCategoryByName(app));
+    router.get('/category/:name/:page', category.getCategoryByName(app));
+
+    /***************** invite router ***************/
+    // router.get('/invite', invite.newCode(app));
     return router;
 }

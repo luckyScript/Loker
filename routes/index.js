@@ -15,13 +15,16 @@ exports.home = function (app) {
                 var pageNum = req.params.page;
                 topics = topics.reverse().splice((pageNum-1)*eachNum, 5);
                 var pageNumArr = [];
+                
                 for (var i = 0; i < pageNumTotal; i++) {
                     pageNumArr[i] = i;
                 }
+              
                 var context = {
                     state: {
                         state: 'index'
                     },
+                    url: '/page/',
                     currentPage: pageNum,
                     pageNumTotal:pageNumTotal,
                     pageNumArr: pageNumArr,

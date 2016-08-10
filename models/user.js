@@ -5,6 +5,7 @@ var schema = {
     username: String,
     password: String,
     salt: String,
+    power: String,
     topics: [
         { type: Schema.Types.ObjectId, ref: 'Topic' }
     ]

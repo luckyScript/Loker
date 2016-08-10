@@ -73,4 +73,11 @@ Topic.addComment = function (id, obj, fn) {
         })
     });
 }
+
+Topic.deleteTopic = function (id, fn) {
+    TopicModel.remove({_id: id}, function (err) {
+        if (err) fn(err);
+        fn("ok");
+    })
+}
 module.exports = Topic;

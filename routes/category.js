@@ -15,6 +15,8 @@ exports.newCategory = function (app) {
         res.render('page',context);
     }
 }
+
+
 exports.newCategoryHandle = function (app) {
     return function (req, res, next) {
         var name = req.body.name;
@@ -59,10 +61,25 @@ exports.getCategoryByName = function (app) {
                     res.render('page',context);
                 } else {
                     Topic.getTopicsByIds(categoryTopic, function (topics) {
+                        // 每页显示数目
+                        var eachNum = 5;
+                        var pageNumTotal = Math.ceil(topics.length/eachNum);
+                        var pageNum = req.params.page;
+                        topics = topics.reverse().splice((pageNum-1)*eachNum, 5);
+                        var pageNumArr = [];
+                        
+                        for (var i = 0; i < pageNumTotal; i++) {
+                            pageNumArr[i] = i;
+                        }
+                        
                         var context = {
                             state: {
                                 state: 'index'
                             },
+                            url: '/category/'+categoryName+'/',
+                            currentPage: pageNum,
+                            pageNumTotal:pageNumTotal,
+                            pageNumArr: pageNumArr,
                             session: req.session,
                             topics: topics,
                             categorys: categorys,

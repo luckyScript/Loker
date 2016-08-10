@@ -24,7 +24,6 @@ exports.newTopic = function (app) {
 }
 exports.newTopicHandle = function (app) {
     return function (req, res, next) {
-        console.log(req.body.author);
         var authorName = req.body.author;
         var categoryName = req.body.categoryName;
         User.findIdByName(authorName, function(authorId) {
@@ -39,7 +38,6 @@ exports.newTopicHandle = function (app) {
                     title: title,
                     content: content
                 });
-                // console.log(topic);
                 topic.create(function (err, result) {
                     if (err) return next(err);
                     res.send({"result": 1});
@@ -81,13 +79,35 @@ exports.getTopic = function (app) {
 }
 exports.addComment = function (app) {
     return function (req, res, next) {
-        id = req.params.id;
-        var comment = {
-            username: req.body.username,
-            content: req.body.content
+        if (req.session.user) {
+            id = req.params.id;
+            var comment = {
+                username: req.body.username,
+                content: req.body.content
+            }
+            Topic.addComment(id, JSON.stringify(comment), function (topic) {
+                res.send({"result": 1});
+            })
+        }else {
+            res.redirect('/');
         }
-        Topic.addComment(id, JSON.stringify(comment), function (topic) {
-            res.send({"result": 1});
-        })
+    }
+}
+
+exports.deleteTopic = function (app) {
+    return function (req, res, next) {
+        if (req.session.user && req.session.user.power == 1) {
+            id = req.params.id;
+            // console.log(id)
+            Topic.deleteTopic(id, function (msg) {
+                if (msg == "ok") {
+                    res.redirect('/');
+                } else {
+                    console.log("error on delete");
+                }
+            });
+        } else {
+            res.redirect('/');
+        }
     }
 }
